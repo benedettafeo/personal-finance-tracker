@@ -31,8 +31,8 @@ while True:
 
   if choice=="1":
     description= input("Description: ")
-    amount= float(input("Amount (€): ")
-    category= input("category: ")
+    amount= float(input("Amount (€): "))
+    category= input("Category: ")
 
     expense= {
       "description": description,
@@ -40,9 +40,9 @@ while True:
       "category": category
     }
     expenses.append(expense)
-    save expense(expense)
+    save_expense(expense)
     print("Expense added!")
-    print(f”Expense added: {expense[‘description’]} - €{expense[‘amount’]:.2f} - {expense[‘category’]}”)
+    print(f"Expense added: {expense['description']} - €{expense['amount']:.2f} - {expense['category']}")
     
   elif choice=="2":
     if not expenses:

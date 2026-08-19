@@ -1,4 +1,24 @@
 expenses= []
+def save_expense(expense):
+  with open("expenses.txt", "a") as file:
+      stringa = f"{expense['description']}|{expense['amount']:.2f}|{expense['category']}"
+      file.write(stringa + "\n")
+
+def load_expenses():
+  with open("expenses.txt", "r") as file:
+    for line in file:
+      line= line.strip()
+      result= line.split("|")
+      expense = {
+        "description": result[0],
+        "amount": float(result[1]),
+        "category": result[2]
+      }
+      expenses.append(expense)
+try:
+  load_expenses()
+except FileNotFoundError:
+  pass
 
 while True: 
   print("\n--- Personal Finance Tracker ---")
@@ -20,7 +40,9 @@ while True:
       "category": category
     }
     expenses.append(expense)
+    save expense(expense)
     print("Expense added!")
+    print(f”Expense added: {expense[‘description’]} - €{expense[‘amount’]:.2f} - {expense[‘category’]}”)
     
   elif choice=="2":
     if not expenses:

@@ -20,6 +20,34 @@ try:
 except FileNotFoundError:
   pass
 
+def get_amount ():
+  while True:
+    amount = input("Amount (€): ")
+    try:
+      amount = float(amount)
+      if amount>0: 
+        return amount
+      else:
+        print("Amount must be greater than 0.")
+    except ValueError:
+      print("Enter a valid number.")
+
+def get_description():
+  while True:
+    description = input("Description: ").strip()
+    if description:
+      return description
+    else:
+      print("Description cannot be empty.")
+
+def get_category():
+  while True:
+    category = input("Category: ").strip()
+    if category:
+      return category.capitalize()
+    else:
+      print("Category cannot be empty.")
+
 while True: 
   print("\n--- Personal Finance Tracker ---")
   print("1: Add expence")
@@ -30,9 +58,9 @@ while True:
   choice= input("Choose an option: ")
 
   if choice=="1":
-    description= input("Description: ")
-    amount= float(input("Amount (€): "))
-    category= input("Category: ")
+    description= get_description()
+    amount= get_amount()
+    category= get_category()
 
     expense= {
       "description": description,

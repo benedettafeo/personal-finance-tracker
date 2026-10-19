@@ -83,6 +83,9 @@ def show_total():
   print(f"Total expenses: €{total:.2f}")
 
 def show_expenses_by_category():
+  if not expenses:
+    print("No expenses recorded.")
+    return
   totals={}
   for expense in expenses:
     category=expense["category"]

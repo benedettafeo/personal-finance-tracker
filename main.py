@@ -48,6 +48,17 @@ def get_category():
     else:
       print("Category cannot be empty.")
 
+def show_expenses():
+  if not expenses:
+      print("No expenses recorded.")
+  else:
+      for expense in expenses:
+        print (
+          f"{expense['description']} - "
+          f"€{expense['amount']:.2f} - "
+          f"{expense['category']}"
+        )
+
 while True: 
   print("\n--- Personal Finance Tracker ---")
   print("1: Add expense")
@@ -73,15 +84,7 @@ while True:
     print(f"Expense added: {expense['description']} - €{expense['amount']:.2f} - {expense['category']}")
     
   elif choice=="2":
-    if not expenses:
-      print("No expenses recorded.")
-    else:
-      for expense in expenses:
-        print (
-          f"{expense['description']} - "
-          f"€{expense['amount']:.2f} - "
-          f"{expense['category']}"
-        )
+    show_expenses()
   elif choice=="3":
     total= sum(expense["amount"] for expense in expenses)
     print(f"Total expenses: €{total:.2f}")

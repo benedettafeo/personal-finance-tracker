@@ -81,13 +81,24 @@ def show_expenses():
 def show_total():
   total= sum(expense["amount"] for expense in expenses)
   print(f"Total expenses: €{total:.2f}")
-  
+
+def show_expenses_by_category():
+  totals={}
+  for expense in expenses:
+    category=expense["category"]
+    if category not in totals:
+      totals[category]=0
+    totals[category]+=expense["amount"]
+  for category, total in totals.items():
+    print(f"{category}: €{total:.2f}")
+    
 while True: 
   print("\n--- Personal Finance Tracker ---")
   print("1: Add expense")
   print("2: Show expenses")
   print("3: Show total")
-  print("4: Exit")
+  print("4: Show expenses by category")
+  print("5: Exit")
 
   choice= input("Choose an option: ")
 
@@ -98,6 +109,8 @@ while True:
   elif choice=="3":
     show_total()
   elif choice=="4":
+    show_expenses_by_category()
+  elif choice=="5":
     print("Goodbye!")
     break
   else:

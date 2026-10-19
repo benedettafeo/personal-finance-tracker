@@ -1,8 +1,13 @@
 expenses= []
 def save_expense(expense):
-  with open("expenses.txt", "a") as file:
+  try:
+    with open("expenses.txt", "a") as file:
       stringa = f"{expense['description']}|{expense['amount']:.2f}|{expense['category']}"
       file.write(stringa + "\n")
+      return True
+  except OSError:
+      print("Error: could not save the expense.")
+      return False
 
 def load_expenses():
   with open("expenses.txt", "r") as file:
@@ -47,6 +52,20 @@ def get_category():
       return category.capitalize()
     else:
       print("Category cannot be empty.")
+      
+def add_expense():
+  description= get_description()
+  amount= get_amount()
+  category= get_category()
+  expense= {
+    "description": description,
+    "amount": amount,
+    "category": category
+  }
+  if save_expense(expense):
+    expenses.append(expense)
+    print("Expense added!")
+    print(f"Expense added: {expense['description']} - €{expense['amount']:.2f} - {expense['category']}")
 
 def show_expenses():
   if not expenses:
@@ -73,20 +92,7 @@ while True:
   choice= input("Choose an option: ")
 
   if choice=="1":
-    description= get_description()
-    amount= get_amount()
-    category= get_category()
- 
-    expense= {
-      "description": description,
-      "amount": amount,
-      "category": category
-    }
-    expenses.append(expense)
-    save_expense(expense)
-    print("Expense added!")
-    print(f"Expense added: {expense['description']} - €{expense['amount']:.2f} - {expense['category']}")
-    
+    add_expense()
   elif choice=="2":
     show_expenses()
   elif choice=="3":

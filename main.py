@@ -50,7 +50,7 @@ def get_category():
 
 while True: 
   print("\n--- Personal Finance Tracker ---")
-  print("1: Add expence")
+  print("1: Add expense")
   print("2: Show expenses")
   print("3: Show total")
   print("4: Exit")

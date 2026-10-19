@@ -61,7 +61,7 @@ while True:
     description= get_description()
     amount= get_amount()
     category= get_category()
-
+ 
     expense= {
       "description": description,
       "amount": amount,

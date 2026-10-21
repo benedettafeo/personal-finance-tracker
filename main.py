@@ -37,11 +37,17 @@ def load_expenses():
             line = line.strip()
             try:
                 result = line.split("|")
+                if len(result) != 3 or not result[0].strip() or not result[2].strip():
+                    print("Warning: skipping an invalid expense.")
+                    continue
                 expense = {
                     "description": result[0],
                     "amount": float(result[1]),
                     "category": result[2]
                 }
+                if expense["amount"] <= 0:
+                    print("Warning: skipping an invalid expense.")
+                    continue
                 expenses.append(expense)
             except (ValueError, IndexError):
                 print("Warning: skipping an invalid expense.")
@@ -105,6 +111,9 @@ def show_expenses():
         )
 
 def show_total():
+  if not expenses:
+    print("No expenses recorded.")
+    return
   total= sum(expense["amount"] for expense in expenses)
   print(f"Total expenses: €{total:.2f}")
 

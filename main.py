@@ -1,3 +1,5 @@
+import os
+
 expenses= []
 def save_expense(expense):
   try:
@@ -11,15 +13,24 @@ def save_expense(expense):
 
 def save_all_expenses(expenses):
   try:
-    with open("expenses.txt", "w") as file:
+    with open("expenses.tmp", "w") as file:
       for expense in expenses:
         stringa = f"{expense['description']}|{expense['amount']:.2f}|{expense['category']}"
         file.write(stringa + "\n")
-      return True
   except OSError:
       print("Error: could not save the expense.")
       return False
-
+  try:
+      os.replace("expenses.tmp", "expenses.txt")
+      return True
+  except OSError:
+      print("Error: could not replace the file.")
+      try:
+          os.remove("expenses.tmp")
+      except OSError:
+          pass
+      return False
+  
 def load_expenses():
   with open("expenses.txt", "r") as file:
     for line in file:

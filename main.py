@@ -9,6 +9,17 @@ def save_expense(expense):
       print("Error: could not save the expense.")
       return False
 
+def save_all_expenses(expenses):
+  try:
+    with open("expenses.txt", "w") as file:
+      for expense in expenses:
+        stringa = f"{expense['description']}|{expense['amount']:.2f}|{expense['category']}"
+        file.write(stringa + "\n")
+      return True
+  except OSError:
+      print("Error: could not save the expense.")
+      return False
+
 def load_expenses():
   with open("expenses.txt", "r") as file:
     for line in file:
@@ -94,6 +105,38 @@ def show_expenses_by_category():
     totals[category]+=expense["amount"]
   for category, total in totals.items():
     print(f"{category}: €{total:.2f}")
+
+def delete_expense():
+    if not expenses:
+        print("No expenses recorded.")
+        return
+    counter = 1
+    for expense in expenses:
+        print(
+            f"{counter}: {expense['description']} - "
+            f"€{expense['amount']:.2f} - "
+            f"{expense['category']}"
+        )
+        counter += 1
+      
+    while True:
+        indice = input("Quale spesa vuoi eliminare? ")
+        try:
+            indice = int(indice)
+            if indice < 1 or indice > len(expenses):
+                print("Indice non valido.")
+                continue
+            indice -= 1
+            break
+        except ValueError:
+            print("Enter a valid number.")
+
+    removed_expense = expenses.pop(indice)
+    if save_all_expenses(expenses):
+        print(f"Expense deleted: {removed_expense['description']}")
+    else:
+        expenses.insert(indice, removed_expense)
+        print("Error saving changes.")
     
 while True: 
   print("\n--- Personal Finance Tracker ---")
@@ -101,7 +144,8 @@ while True:
   print("2: Show expenses")
   print("3: Show total")
   print("4: Show expenses by category")
-  print("5: Exit")
+  print("5: Delete expense")
+  print("6: Exit")
 
   choice= input("Choose an option: ")
 
@@ -114,6 +158,8 @@ while True:
   elif choice=="4":
     show_expenses_by_category()
   elif choice=="5":
+    delete_expense()
+  elif choice=="6":
     print("Goodbye!")
     break
   else:

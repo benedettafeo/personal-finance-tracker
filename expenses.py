@@ -145,3 +145,20 @@ def edit_expense(expenses):
     else:
         expenses[indice] = old_expense
         print("Error saving changes.")
+
+def search_expenses(expenses):
+    if not expenses:
+        print("No expenses recorded.")
+        return
+    found= False
+    search = input("Search: ").strip().lower()
+    for expense in expenses:
+      if search in expense["description"].lower():
+        found= True
+        print (
+          f"{expense['description']} - "
+          f"€{expense['amount']:.2f} - "
+          f"{expense['category']}"
+        )
+    if not found:
+      print("No expenses found.")

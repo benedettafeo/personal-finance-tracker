@@ -5,7 +5,8 @@ from expenses import (
     show_total,
     show_expenses_by_category,
     delete_expense,
-    edit_expense
+    edit_expense,
+    search_expenses
 )
 
 expenses= []
@@ -24,7 +25,8 @@ while True:
   print("4: Show expenses by category")
   print("5: Delete expense")
   print("6: Edit expense")
-  print("7: Exit")
+  print("7: Search expense")
+  print("8: Exit")
 
   choice= input("Choose an option: ")
 
@@ -41,6 +43,8 @@ while True:
   elif choice=="6":
     edit_expense(expenses)
   elif choice=="7":
+    search_expenses(expenses)
+  elif choice=="8":
     print("Goodbye!")
     break
   else:

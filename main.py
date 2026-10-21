@@ -32,16 +32,20 @@ def save_all_expenses(expenses):
       return False
   
 def load_expenses():
-  with open("expenses.txt", "r") as file:
-    for line in file:
-      line= line.strip()
-      result= line.split("|")
-      expense = {
-        "description": result[0],
-        "amount": float(result[1]),
-        "category": result[2]
-      }
-      expenses.append(expense)
+    with open("expenses.txt", "r") as file:
+        for line in file:
+            line = line.strip()
+            try:
+                result = line.split("|")
+                expense = {
+                    "description": result[0],
+                    "amount": float(result[1]),
+                    "category": result[2]
+                }
+                expenses.append(expense)
+            except (ValueError, IndexError):
+                print("Warning: skipping an invalid expense.")
+              
 try:
   load_expenses()
 except FileNotFoundError:

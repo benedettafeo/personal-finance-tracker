@@ -41,9 +41,9 @@ def load_expenses():
                     print("Warning: skipping an invalid expense.")
                     continue
                 expense = {
-                    "description": result[0],
+                    "description": result[0].strip(),
                     "amount": float(result[1]),
-                    "category": result[2]
+                    "category": result[2].strip()
                 }
                 if expense["amount"] <= 0:
                     print("Warning: skipping an invalid expense.")
@@ -161,7 +161,47 @@ def delete_expense():
     else:
         expenses.insert(indice, removed_expense)
         print("Error saving changes.")
-    
+
+def edit_expense():
+    if not expenses:
+        print("No expenses recorded.")
+        return
+    counter = 1
+    for expense in expenses:
+        print(
+            f"{counter}: {expense['description']} - "
+            f"€{expense['amount']:.2f} - "
+            f"{expense['category']}"
+        )
+        counter += 1
+      
+    while True:
+        indice = input("Quale spesa vuoi modificare? ")
+        try:
+            indice = int(indice)
+            if indice < 1 or indice > len(expenses):
+                print("Indice non valido.")
+                continue
+            indice -= 1
+            break
+        except ValueError:
+            print("Enter a valid number.")
+    description= get_description()
+    amount= get_amount()
+    category= get_category()
+    expense= {
+        "description": description,
+        "amount": amount,
+        "category": category
+    }
+    old_expense = expenses[indice]
+    expenses[indice] = expense
+    if save_all_expenses(expenses):
+        print(f"Expense updated: {expense['description']}")
+    else:
+        expenses[indice] = old_expense
+        print("Error saving changes.")
+
 while True: 
   print("\n--- Personal Finance Tracker ---")
   print("1: Add expense")
@@ -169,7 +209,8 @@ while True:
   print("3: Show total")
   print("4: Show expenses by category")
   print("5: Delete expense")
-  print("6: Exit")
+  print("6: Edit expense")
+  print("7: Exit")
 
   choice= input("Choose an option: ")
 
@@ -184,6 +225,8 @@ while True:
   elif choice=="5":
     delete_expense()
   elif choice=="6":
+    edit_expense()
+  elif choice=="7":
     print("Goodbye!")
     break
   else:
